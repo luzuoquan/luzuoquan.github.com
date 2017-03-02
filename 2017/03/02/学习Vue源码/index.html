@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Vue.js Virtual-dom," />
 
 
 
@@ -87,15 +87,22 @@
 
 
 
-<meta name="description" content="这是一个小窝">
-<meta property="og:type" content="website">
-<meta property="og:title" content="luzuoquan's world">
-<meta property="og:url" content="http://luzuoquan.github.io/index.html">
+<meta name="description" content="前言Vue.js是目前MVVM框架中比较流行的一种，在之前的项目中也用过Vue+Vuex。在使用的过程中，也是一边看文档一边进行开发。对Vue的了解也仅限官方文档和一些社区上回答，很大程度上是知其然而不知其所以然。所以在项目告一段落之后，决定从Vue的源码入手，学习一下其内部架构。
+Vue源码目录目标Vue.js版本是2.0.5  /src目录对应的目录分别为/compiler、/core、/en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习Vue.js源码">
+<meta property="og:url" content="http://luzuoquan.github.io/2017/03/02/学习Vue源码/index.html">
 <meta property="og:site_name" content="luzuoquan's world">
-<meta property="og:description" content="这是一个小窝">
+<meta property="og:description" content="前言Vue.js是目前MVVM框架中比较流行的一种，在之前的项目中也用过Vue+Vuex。在使用的过程中，也是一边看文档一边进行开发。对Vue的了解也仅限官方文档和一些社区上回答，很大程度上是知其然而不知其所以然。所以在项目告一段落之后，决定从Vue的源码入手，学习一下其内部架构。
+Vue源码目录目标Vue.js版本是2.0.5  /src目录对应的目录分别为/compiler、/core、/en">
+<meta property="og:image" content="http://easyread.nos.netease.com/web/trunk/1488165885109/src.jpg">
+<meta property="og:image" content="https://easyread.nosdn.127.net/web/trunk/1488180276055/vue.jpg">
+<meta property="og:updated_time" content="2017-03-02T09:09:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="luzuoquan's world">
-<meta name="twitter:description" content="这是一个小窝">
+<meta name="twitter:title" content="学习Vue.js源码">
+<meta name="twitter:description" content="前言Vue.js是目前MVVM框架中比较流行的一种，在之前的项目中也用过Vue+Vuex。在使用的过程中，也是一边看文档一边进行开发。对Vue的了解也仅限官方文档和一些社区上回答，很大程度上是知其然而不知其所以然。所以在项目告一段落之后，决定从Vue的源码入手，学习一下其内部架构。
+Vue源码目录目标Vue.js版本是2.0.5  /src目录对应的目录分别为/compiler、/core、/en">
+<meta name="twitter:image" content="http://easyread.nos.netease.com/web/trunk/1488165885109/src.jpg">
 
 
 
@@ -123,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://luzuoquan.github.io/"/>
+  <link rel="canonical" href="http://luzuoquan.github.io/2017/03/02/学习Vue源码/"/>
 
 
 
 
 
-  <title> luzuoquan's world </title>
+  <title> 学习Vue.js源码 | luzuoquan's world </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -163,9 +170,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -248,9 +253,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -280,10 +285,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/02/学习Vue源码/" itemprop="url">
-                  学习Vue.js源码
-                </a>
+                学习Vue.js源码
               
             
           </h1>
@@ -344,9 +346,7 @@
       
 
       
-        
-          
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Vue.js是目前MVVM框架中比较流行的一种，在之前的项目中也用过Vue+Vuex。在使用的过程中，也是一边看文档一边进行开发。对Vue的了解也仅限官方文档和一些社区上回答，很大程度上是知其然而不知其所以然。所以在项目告一段落之后，决定从Vue的源码入手，学习一下其内部架构。</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Vue.js是目前MVVM框架中比较流行的一种，在之前的项目中也用过Vue+Vuex。在使用的过程中，也是一边看文档一边进行开发。对Vue的了解也仅限官方文档和一些社区上回答，很大程度上是知其然而不知其所以然。所以在项目告一段落之后，决定从Vue的源码入手，学习一下其内部架构。</p>
 <h3 id="Vue源码目录"><a href="#Vue源码目录" class="headerlink" title="Vue源码目录"></a>Vue源码目录</h3><p>目标Vue.js版本是2.0.5  <em>/src目录</em><br><img src="http://easyread.nos.netease.com/web/trunk/1488165885109/src.jpg" alt="源码src目录"><br>对应的目录分别为<br><code>/compiler</code>、<code>/core</code>、<code>/entries</code>、<code>/platforms</code>、<code>/server</code>、<code>/sfc</code>、<code>/shared</code></p>
 <ol>
 <li><strong>/compiler</strong>目录是编译模版；</li>
@@ -379,39 +379,50 @@
 <p>至此，<strong>‘Virtual-dom’</strong>大致的实现逻辑也清楚了。Vue.js的源码在架构组织上还有很多可以学习的，比如区分’核心模块’和’平台模块’。另外内部实现的’keep-alive’组件也是值得关注的地方，更多了解请到<a href="https://github.com/vuejs/vue/tree/master/src" target="_blank" rel="external">这里</a>。以上只是很’粗浅’的学习，不对的地方希望大家指出来（认真脸.jpg）。</p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://cn.vuejs.org/v2/guide/" target="_blank" rel="external">Vue官网文档</a><br><a href="https://medium.com/cardlife-app/what-is-virtual-dom-c0ec6d6a925c#.3vgs4yv49" target="_blank" rel="external">What is Virtual Dom</a><br><a href="http://reactkungfu.com/2015/10/the-difference-between-virtual-dom-and-dom/" target="_blank" rel="external">The difference between Virtual DOM and DOM</a></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Vue-js-Virtual-dom/" rel="tag"># Vue.js Virtual-dom</a>
+          
+        </div>
+      
+
+      
+        
+      
 
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -419,6 +430,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/02/学习Vue源码/"
+           data-title="学习Vue.js源码" data-url="http://luzuoquan.github.io/2017/03/02/学习Vue源码/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -438,8 +457,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://easyread.nos.netease.com/web/trunk/1488026483465/pang.jpg"
@@ -490,6 +518,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue源码目录"><span class="nav-number">2.</span> <span class="nav-text">Vue源码目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#独立构建-amp-amp-运行时构建"><span class="nav-number">3.</span> <span class="nav-text">独立构建&&运行时构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue-js结构"><span class="nav-number">4.</span> <span class="nav-text">Vue.js结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应的数据绑定"><span class="nav-number">5.</span> <span class="nav-text">响应的数据绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Virtual-dom"><span class="nav-number">6.</span> <span class="nav-text">Virtual-dom</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -602,6 +646,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
