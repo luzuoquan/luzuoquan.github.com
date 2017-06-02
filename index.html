@@ -346,8 +346,57 @@
       
         
           
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>到目前为止，我们实现异步获取数据都是通过<strong>AJAX</strong>，或者其他封装成’AJAX’类的工具函数（此处不讨论JSONP。。。）。而<strong>AJAX</strong>的核心就是<code>XMLHttpRequest</code>，<code>XMLHttpRequest</code>的出现，使得Web页面开发进入一个新的时代。但是现在针对<code>XMLHttpRequest</code>的槽点越来越多。本身的API设计不是基于Promise的，会导致异步回调深渊（当然，<code>jQuery</code>已经根据<code>Promise/A</code>实现对应的Promise方案）。而现在<code>Fetch</code>代表着新一代获取资源的技术解决方案(包括跨网络)，尽管它目前还是处于实验中。</p>
-<p>### </p>
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>到目前为止，我们实现异步获取数据都是通过 <strong>AJAX</strong> ，或者其他封装成 ‘AJAX’ 类的工具函数（此处不讨论 JSONP 。。。）。而 <strong>AJAX</strong> 的核心就是 <code>XMLHttpRequest</code> ， <code>XMLHttpRequest</code> 的出现，使得 Web 页面开发进入一个新的时代。但是现在针对 <code>XMLHttpRequest</code> 的槽点越来越多。本身的 API 设计不是基于 Promise 的，会导致异步回调深渊（当然， <code>jQuery</code> 已经根据 <code>Promise/A</code> 实现对应的 Promise 方案）。而现在 <code>Fetch</code> 代表着新一代获取资源的技术解决方案(包括跨网络)，尽管它目前还是处于实验中。</p>
+<h3 id="Fetch-的介绍"><a href="#Fetch-的介绍" class="headerlink" title="Fetch 的介绍"></a>Fetch 的介绍</h3><p>尽管 Fetch 的兼容性在 chrome 42和 Firefox 39 以及 Opera 29上面得到了实现，但是对于 IE，哪怕是 IE11都没有实现。这似乎使其不能在pc端上应用。但是社区已经对 新的 Fetch 标准做了很好的兼容。下面讲介绍一个在自己实际项目中的应用到的 <em>Fetch</em> ,来自于开源项目 <a href="https://www.npmjs.com/package/whatwg-fetch" target="_blank" rel="external"><strong>whatwg-fetch</strong></a>。</p>
+<p>这里不会去深究 <strong>whatwg-fetch</strong> 如何兼容 IE ，仅仅是介绍在实际使用中的情况。</p>
+<p>一个通用的 Fetch 的示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fetch(url, options).then(function(response) &#123;</div><div class="line">  // handle HTTP response</div><div class="line">&#125;, function(error) &#123;</div><div class="line">  // handle network error</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>Fetch 接受两个参数：’url’ , ‘options’。’url’ 是必填项，’options’ 是可选项。看下常规的 <strong>GET</strong> 、 <strong>POST</strong> 请求</p>
+<pre><code>// for get
+{
+    method: &apos;GET&apos;,
+    headers: {
+        &apos;Content-Type&apos;: &apos;application/json&apos;,
+        &apos;Token&apos;: token
+    },
+    credentials: &apos;same-origin&apos;
+}
+
+// for post
+{
+    method: &apos;POST&apos;,
+    headers: {
+        &apos;Content-Type&apos;: &apos;application/json&apos;,
+        &apos;Token&apos;: token
+    },
+    credentials: &apos;same-origin&apos;,
+    body: JSON.stringify(formParams)
+}
+</code></pre><p>事实上， options的可选项包括</p>
+<ol>
+<li><strong>maxRedirects</strong></li>
+<li><strong>disableRedirects</strong></li>
+<li><strong>credentials</strong></li>
+<li><strong>headers</strong></li>
+<li><strong>maxResponseLength</strong></li>
+<li><strong>method</strong></li>
+<li>…(请看API)</li>
+</ol>
+<p>Fetch 请求返回的 response 参数是 Response 对象的变量， Response 对象有以下属性</p>
+<ol>
+<li>Response.status  response的状态码（缺省值：200）</li>
+<li>Response.statusText  HTTP 状态码消息对应</li>
+<li>Response.ok 根据 response 的状态是否在200-299(包括200,299)这个范围内返回一个 Boolean 的值</li>
+<li>REsponse.headers Headers的信息</li>
+</ol>
+<p>另外一些常规的方法</p>
+<ol>
+<li>text()</li>
+<li>json()</li>
+<li>blob()</li>
+<li>arrayBuffer()</li>
+<li>formData() </li>
+</ol>
+<p>Fetch 返回的另外一个 function 则是错误信息的回调方法。</p>
 
           
         
