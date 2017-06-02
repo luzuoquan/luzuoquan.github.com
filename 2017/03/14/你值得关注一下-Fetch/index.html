@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Fetch XMLHttpRequest," />
 
 
 
@@ -87,15 +87,16 @@
 
 
 
-<meta name="description" content="这是一个小窝">
-<meta property="og:type" content="website">
-<meta property="og:title" content="luzuoquan's world">
-<meta property="og:url" content="http://luzuoquan.github.io/tags/Vue-js-Virtual-dom/index.html">
+<meta name="description" content="前言到目前为止，我们实现异步获取数据都是通过AJAX，或者其他封装成’AJAX’类的工具函数（此处不讨论JSONP。。。）。而AJAX的核心就是XMLHttpRequest，XMLHttpRequest的出现，使得Web页面开发进入一个新的时代。但是现在针对XMLHttpRequest的槽点越来越多。本身的API设计不是基于Promise的，会导致异步回调深渊（当然，jQuery已经根据Promi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你值得关注一下'Fetch'">
+<meta property="og:url" content="http://luzuoquan.github.io/2017/03/14/你值得关注一下-Fetch/index.html">
 <meta property="og:site_name" content="luzuoquan's world">
-<meta property="og:description" content="这是一个小窝">
+<meta property="og:description" content="前言到目前为止，我们实现异步获取数据都是通过AJAX，或者其他封装成’AJAX’类的工具函数（此处不讨论JSONP。。。）。而AJAX的核心就是XMLHttpRequest，XMLHttpRequest的出现，使得Web页面开发进入一个新的时代。但是现在针对XMLHttpRequest的槽点越来越多。本身的API设计不是基于Promise的，会导致异步回调深渊（当然，jQuery已经根据Promi">
+<meta property="og:updated_time" content="2017-03-14T16:02:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="luzuoquan's world">
-<meta name="twitter:description" content="这是一个小窝">
+<meta name="twitter:title" content="你值得关注一下'Fetch'">
+<meta name="twitter:description" content="前言到目前为止，我们实现异步获取数据都是通过AJAX，或者其他封装成’AJAX’类的工具函数（此处不讨论JSONP。。。）。而AJAX的核心就是XMLHttpRequest，XMLHttpRequest的出现，使得Web页面开发进入一个新的时代。但是现在针对XMLHttpRequest的槽点越来越多。本身的API设计不是基于Promise的，会导致异步回调深渊（当然，jQuery已经根据Promi">
 
 
 
@@ -123,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://luzuoquan.github.io/tags/Vue-js-Virtual-dom/"/>
+  <link rel="canonical" href="http://luzuoquan.github.io/2017/03/14/你值得关注一下-Fetch/"/>
 
 
 
 
 
-  <title> 标签: Vue.js Virtual-dom | luzuoquan's world </title>
+  <title> 你值得关注一下'Fetch' | luzuoquan's world </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -163,7 +164,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,46 +248,161 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        Vue.js Virtual-dom
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://luzuoquan.github.io/2017/03/14/你值得关注一下-Fetch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="luzuoquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://easyread.nos.netease.com/web/trunk/1488026483465/pang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="luzuoquan's world">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                你值得关注一下'Fetch'
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-14T15:04:26+08:00">
+                2017-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/14/你值得关注一下-Fetch/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/14/你值得关注一下-Fetch/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>到目前为止，我们实现异步获取数据都是通过<strong>AJAX</strong>，或者其他封装成’AJAX’类的工具函数（此处不讨论JSONP。。。）。而<strong>AJAX</strong>的核心就是<code>XMLHttpRequest</code>，<code>XMLHttpRequest</code>的出现，使得Web页面开发进入一个新的时代。但是现在针对<code>XMLHttpRequest</code>的槽点越来越多。本身的API设计不是基于Promise的，会导致异步回调深渊（当然，<code>jQuery</code>已经根据<code>Promise/A</code>实现对应的Promise方案）。而现在<code>Fetch</code>代表着新一代获取资源的技术解决方案(包括跨网络)，尽管它目前还是处于实验中。</p>
+<p>### </p>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/03/02/学习Vue源码/" itemprop="url">
-              
-                <span itemprop="name">学习Vue.js源码</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-02T19:11:35+08:00"
-              content="2017-03-02" >
-          03-02
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Fetch-XMLHttpRequest/" rel="tag"># Fetch XMLHttpRequest</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/02/学习Vue源码/" rel="next" title="学习Vue.js源码">
+                <i class="fa fa-chevron-left"></i> 学习Vue.js源码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -294,6 +410,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/14/你值得关注一下-Fetch/"
+           data-title="你值得关注一下'Fetch'" data-url="http://luzuoquan.github.io/2017/03/14/你值得关注一下-Fetch/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -313,8 +437,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://easyread.nos.netease.com/web/trunk/1488026483465/pang.jpg"
@@ -365,6 +498,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -477,6 +626,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
