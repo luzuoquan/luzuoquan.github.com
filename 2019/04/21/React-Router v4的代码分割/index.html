@@ -1,0 +1,733 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="#React-Router v4 同构工程的 Code Splitting 实践  React-Router v4 的一些新特性新版 React-Router 采用了 Monorepo 管理方式，里面有若干独立的包。   react-router react-router-dom react-router-native react-router-config   v4 版相比之前的版本有一些需要特">
+<meta property="og:type" content="article">
+<meta property="og:title" content="luzuoquan&#39;s world">
+<meta property="og:url" content="http://luzuoquan.github.io/2019/04/21/React-Router v4的代码分割/index.html">
+<meta property="og:site_name" content="luzuoquan&#39;s world">
+<meta property="og:description" content="#React-Router v4 同构工程的 Code Splitting 实践  React-Router v4 的一些新特性新版 React-Router 采用了 Monorepo 管理方式，里面有若干独立的包。   react-router react-router-dom react-router-native react-router-config   v4 版相比之前的版本有一些需要特">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-21T03:36:19.536Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="luzuoquan&#39;s world">
+<meta name="twitter:description" content="#React-Router v4 同构工程的 Code Splitting 实践  React-Router v4 的一些新特性新版 React-Router 采用了 Monorepo 管理方式，里面有若干独立的包。   react-router react-router-dom react-router-native react-router-config   v4 版相比之前的版本有一些需要特">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://luzuoquan.github.io/2019/04/21/React-Router v4的代码分割/">
+
+
+
+
+
+  <title>  | luzuoquan's world </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-67063157-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">luzuoquan's world</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://luzuoquan.github.io/2019/04/21/React-Router v4的代码分割/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="luzuoquan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://easyread.nos.netease.com/web/trunk/1488026483465/pang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="luzuoquan's world">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-21T11:35:06+08:00">
+                2019-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/21/React-Router v4的代码分割/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/21/React-Router v4的代码分割/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#React-Router v4 同构工程的 Code Splitting 实践</p>
+<hr>
+<h3 id="React-Router-v4-的一些新特性"><a href="#React-Router-v4-的一些新特性" class="headerlink" title="React-Router v4 的一些新特性"></a>React-Router v4 的一些新特性</h3><p>新版 React-Router 采用了 Monorepo 管理方式，里面有若干独立的包。</p>
+<blockquote>
+<ol>
+<li>react-router</li>
+<li>react-router-dom</li>
+<li>react-router-native</li>
+<li>react-router-config</li>
+</ol>
+</blockquote>
+<p>v4 版相比之前的版本有一些需要特别注意的地方。</p>
+<ol>
+<li>部分组件不再是从 ‘react-router’ 中引入，比如 <strong>Link</strong> 需要从 ‘react-router-dom’ 中引入。</li>
+<li>嵌套路由不在支持，需要从父组件里面再添加子路由，这也贯彻了组件即路由的思想。不过官方还是提供了一个相对友好的工具组件 ‘react-router-config’。</li>
+<li>移除了<code>onEnter</code> 、 <code>onUpdate</code> 、 <code>onLeave</code> 事件，很多习惯了在路由状态层面处理的情况都得在组件的生命周期函数中处理。</li>
+<li>路由匹配规则改动也很大，新的匹配规则遵循 <a href="https://github.com/pillarjs/path-to-regexp/tree/master" target="_blank" rel="noopener">path-to-regexp</a> 规则。</li>
+</ol>
+<p>针对这 v4 之前的版本，React-Router 官方给出了一份相对比较详细的升级指南。<br><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/migrating.md" target="_blank" rel="noopener">Migrating from v2/v3 to v4</a></p>
+<hr>
+<p>官方给出的文档能帮助我们很好的进行升级。但是针对服务端渲染，以及单页面应用服务端渲染后的代码分割，文档并没有给出很好的方案。<br>同构工程的主要的技术点：</p>
+<ol>
+<li>Server 端和 Client 端单独渲染出来的代码是相同的；</li>
+<li>Dynamic Imports；</li>
+<li>Code Splitting；</li>
+</ol>
+<p>在这里我们探讨两种不同的 Code Splitting 的方案。</p>
+<h3 id="1-react-asyncmodule"><a href="#1-react-asyncmodule" class="headerlink" title="1. react-asyncmodule"></a>1. react-asyncmodule</h3><p><a href="https://github.com/caoren/react-asyncmodule/tree/master/packages/react-asyncmodule" target="_blank" rel="noopener">react-asyncmodule</a> (大佬同事开发)，是一个专门来做代码分割的解决方案。搭配 <strong>Webpack</strong> 和 <strong>Import</strong> 可以很好的解决工程的动态加载和代码分割。</p>
+<p>假如现有项目用到的 React-Router 版本是 v4 之前的版本，这绝对是最友好的 Code Splitting 方案。<br>通常在 v4 版本之前，路由都是这样集中设置的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    path: &apos;login&apos;,</span><br><span class="line">    getComponent(nextState, callback) &#123;</span><br><span class="line">        require.ensure([], require =&gt; &#123;</span><br><span class="line">            callback(null, require(&apos;./view/login/index&apos;))</span><br><span class="line">        &#125;, &apos;login&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    path: &apos;song(/:id)&apos;,</span><br><span class="line">    getComponent(nextState, callback) &#123;</span><br><span class="line">        require.ensure([], require =&gt; &#123;</span><br><span class="line">            callback(null, require(&apos;./view/song/song&apos;).default)</span><br><span class="line">        &#125;, &apos;song&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    path: &apos;tiktoksong(/:id)&apos;,</span><br><span class="line">    getComponent(nextState, callback) &#123;</span><br><span class="line">        require.ensure([], require =&gt; &#123;</span><br><span class="line">            callback(null, require(&apos;./view/tiktoksong/tiktoksong&apos;))</span><br><span class="line">        &#125;, &apos;tiktoksong&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>虽然 v4 官方推荐是 <em>Dynamic Routing</em> , 但是对于依然使用 <em>Static Routing</em> 方式集中管理路由的旧项目，v4 提供了 <a href="https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config" target="_blank" rel="noopener">react-router-config</a> 包，让我们依然可以使用集中管理路由的方式。虽然在 router config 的配置上面会和 v3 版的有一些区别，但也还好。从上面的代码中可以看到异步加载解决方案是基于 Webpack 的 <code>require.ensure</code> 来做的。而在 webpack 3+ 以后我们用 <code>import()</code> 来做异步加载。<br>当使用 <code>import</code> 时， 代码分割的配置就比之前会更复杂。在在这个时候需要引入 <a href="https://github.com/caoren/react-asyncmodule/tree/master/packages/react-asyncmodule" target="_blank" rel="noopener">react-asyncmodule</a> 方案 ，类似的配置如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> AsyncModule <span class="keyword">from</span> <span class="string">'react-asyncmodule'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> AsyncComponent = AsyncModule(&#123;</span><br><span class="line">    loading: <span class="function"><span class="params">()</span> =&gt;</span> (&lt;Loading /&gt;),</span><br><span class="line">    error: () =&gt; (&lt;div&gt;error&lt;/div&gt;)</span><br><span class="line">&#125;);</span><br><span class="line">const Home = AsyncComponent(import('./view/index'));</span><br><span class="line"></span><br><span class="line">const routesConfig = [&#123;</span><br><span class="line">    path: '/:m?',</span><br><span class="line">    exact: true,</span><br><span class="line">    component: Home,</span><br><span class="line">    componentName: 'home',</span><br><span class="line">    fetchData: (&#123; dispatch, queryParams &#125;) =&gt; &#123;</span><br><span class="line">        const &#123; s &#125; = queryParams;</span><br><span class="line">        if (s) &#123;</span><br><span class="line">            return (</span><br><span class="line">                dispatch(changeTab(2)),</span><br><span class="line">                dispatch(setInputValue(s)),</span><br><span class="line">                dispatch(setSearchState(false))</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">        return dispatch(homeRemdRequest(queryParams));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure></p>
+<p>对应 webpack 配置文件也比以前稍微复杂。webpack(server端) 的 externals 需要做如下更改:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExternals</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fs.readdirSync(path.resolve(__dirname, <span class="string">'./node_modules'</span>))</span><br><span class="line">        .filter(<span class="function"><span class="params">filename</span> =&gt;</span> !<span class="regexp">/\.bin|react-asyncmodule/</span>.test(filename))</span><br><span class="line">        .reduce(<span class="function">(<span class="params">externals, filename</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// eslint-disable-next-line no-param-reassign</span></span><br><span class="line">            externals[filename] = <span class="string">`commonjs <span class="subst">$&#123;filename&#125;</span>`</span>;</span><br><span class="line">            <span class="keyword">return</span> externals;</span><br><span class="line">        &#125;, &#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>并且需要将 <code>asyncmodule-import</code> 放到 <strong>babel-loader</strong> 的 plugins 配置中。这样配置就差不多了，其余的都是正常的同构代码。</p>
+<h3 id="2-react-loadable"><a href="#2-react-loadable" class="headerlink" title="2. react-loadable"></a>2. react-loadable</h3><p>社区中最火的代码分割的解决方案。如同 <code>react-loadable</code> 文档中引用的一样：</p>
+<blockquote>
+<p>  A higher order component for loading components with dynamic imports</p>
+</blockquote>
+<p><code>react-loadable</code> 的具体用法可以参照其<a href="https://github.com/jamiebuilds/react-loadable#readme" target="_blank" rel="noopener">官方文档</a>。但是需要注意的是其是基于动态路由的，也就是在路由设置上不能像前面那种集中配置，当然这也是 v4 版本推荐的路由设置方式。如果是一个新项目，还是推荐的。<br>在使用 <code>react-loadable</code> 同构的工程还是有一些需要注意的点：</p>
+<ol>
+<li>在 server 端 app 的入口处需要加入 <code>Loadable.preloadAll</code></li>
+<li><code>react-loadable</code> 自带 Babel 插件 <code>react-loadable/babel</code> 和 Webpack 插件 <code>react-loadable/webpack</code> 需要分别在 <strong>babel-loader</strong> 的 ‘plugins’ 和 <strong>webpack</strong> 的 ‘plugins’ 中设置。</li>
+<li>因为 <code>react-loadable/webpack</code> 会生成一份所有包信息的 json 文件。而这份文件在 server  端生成 html 的时候会用到，所以在开发者模式的时候得先执行 webpack 编译，然后再启动 server 。 如果不想这么麻烦，可以使用另外一个 npm 包 <a href="https://www.npmjs.com/package/npm-run-all" target="_blank" rel="noopener">npm-run-all</a> 。</li>
+</ol>
+<hr>
+<p>最后 <code>react-asyncmodule</code> 和 <code>react-loadable</code> 都是基于 <em>Component</em> 进行代码分割的。两者的区别是：</p>
+<ol>
+<li><code>react-asyncmodule</code> 对 loading 、 error 参数更好的复用；</li>
+<li><code>react-asyncmodule</code> 的总体设置更简单，比如在 node 端不需要 <code>preloadAll</code> 。</li>
+</ol>
+<p>这两种代码分割的解决方案都可以很好的帮我们完成同构，最后祝大家’同构’愉快！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/02/你值得关注一下-Fetch/" rel="next" title="你值得关注一下'Fetch'">
+                <i class="fa fa-chevron-left"></i> 你值得关注一下'Fetch'
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/04/21/React-Router v4的代码分割/" data-title data-url="http://luzuoquan.github.io/2019/04/21/React-Router v4的代码分割/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://easyread.nos.netease.com/web/trunk/1488026483465/pang.jpg" alt="luzuoquan">
+          <p class="site-author-name" itemprop="name">luzuoquan</p>
+           
+              <p class="site-description motion-element" itemprop="description">这是一个小窝</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#React-Router-v4-的一些新特性"><span class="nav-number">1.</span> <span class="nav-text">React-Router v4 的一些新特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-react-asyncmodule"><span class="nav-number">2.</span> <span class="nav-text">1. react-asyncmodule</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-react-loadable"><span class="nav-number">3.</span> <span class="nav-text">2. react-loadable</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">luzuoquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"luzuoquan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
